@@ -59,9 +59,13 @@ joblib.dump(model, 'fraud_model.pkl')
 joblib.dump(scaler, 'scaler.pkl')
 
 # Flask App
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, render_template, jsonify
 
 app = Flask(__name__)
+
+@app.route('/favicon.ico')
+def favicon():
+    return '', 204
 
 @app.route('/')
 def home():
@@ -71,15 +75,8 @@ def home():
 def predict():
     try:
         claim_amount = float(request.form['claim_amount'])
-        product_age = int(request.form['product_age'])
-        customer_history = int(request.form['customer_history'])
-        purchase_date = request.form['purchase_date']
-        claim_date = request.form['claim_date']
-        claim_reason = request.form['claim_reason']
-        repair_cost = float(request.form['repair_cost'])
-        warranty_validity = int(request.form['warranty_validity'])
-
-        # Dummy prediction logic 
+        
+        # Dummy fraud detection logic
         prediction = "Fraudulent" if claim_amount > 5000 else "Genuine"
 
         return jsonify({'prediction': prediction})
